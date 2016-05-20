@@ -1,12 +1,8 @@
-/**
- * React Native Webpack Starter Kit
- * https://github.com/jhabdas/react-native-webpack-starter-kit
- */
 (function() {
-  'use strict'
+  'use strict';
 
-  var path = require('path')
-  var webpack = require('webpack')
+  var path = require('path');
+  var webpack = require('webpack');
 
   module.exports = {
     debug: true,
@@ -15,10 +11,19 @@
       'index.ios': ['./src/main.ios.js'],
       //'index.android': ['./src/main.android.js'],
     },
+
     output: {
       path: path.resolve(__dirname, 'build'),
       filename: '[name].js',
     },
+
+    resolve: {
+      alias: {
+        util:   __dirname + "/src/util",
+        shared: __dirname + "/src/components/shared"
+      }
+    },
+
     module: {
       preLoaders: [
         {
