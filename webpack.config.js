@@ -34,6 +34,10 @@
       ],
       loaders: [
         {
+          test: /\.json$/,
+          loader: 'json'
+        },
+        {
           test: /\.js$/,
           include: /node_modules\/react-native/,
           loader: 'babel',
