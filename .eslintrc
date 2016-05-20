@@ -11,7 +11,7 @@
     "indent": [2, 2],
     "quotes": [2, "single"],
     "linebreak-style": [2, "unix"],
-    "semi": [2, "never"],
+    "semi": ["error", "always", { "omitLastInOneLineBlock": true}],
     "comma-dangle": [1, "always-multiline"],
     "constructor-super": 2,
     "no-confusing-arrow": 2,
