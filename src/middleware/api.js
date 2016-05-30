@@ -1,6 +1,11 @@
 import {createAPIMiddleware} from 'util/redux';
-import {API_ENDPOINT} from 'config';
 
 
 
-export default createAPIMiddleware( API_ENDPOINT, [] );
+const apiList = {
+  // todo: add api calls
+};
+
+
+
+export default endpoint => createAPIMiddleware( endpoint, apiList );

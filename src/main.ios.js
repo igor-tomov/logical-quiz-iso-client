@@ -1,10 +1,12 @@
-/**
- * React Native Webpack Starter Kit
- * https://github.com/jhabdas/react-native-webpack-starter-kit
- */
-import { AppRegistry } from 'react-native';
-import App from './components/QuizScene';
+import React, { AppRegistry } from 'react-native';
+import App from './components/App.ios';
+import createConfiguredStore from './store/configureStore';
 
 
 
-AppRegistry.registerComponent('App', () => App );
+const store = createConfiguredStore();
+const AppWithStore = () => <App store={store} />;
+
+
+
+AppRegistry.registerComponent('App', () => AppWithStore );

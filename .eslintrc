@@ -8,6 +8,7 @@
     "react"
   ],
   "rules": {
+    "no-console":0,
     "indent": [2, 2],
     "quotes": [2, "single"],
     "linebreak-style": [2, "unix"],
@@ -26,7 +27,7 @@
     "prefer-template": 1,
     "require-yield": 2,
     "jsx-quotes": 1,
-    "react/forbid-prop-types": 1,
+    "react/forbid-prop-types": 0,
     "react/jsx-boolean-value": 1,
     "react/jsx-closing-bracket-location": 1,
     "react/jsx-curly-spacing": 1,

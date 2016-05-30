@@ -20,7 +20,7 @@
  * @returns {Function}
  */
 export function createAPIMiddleware( endpoint, apiList ) {
-  return store => next => action => {
+  return () => next => action => {
     let {meta} = action;
 
     if ( ! meta || ! meta.api ){
@@ -30,7 +30,7 @@ export function createAPIMiddleware( endpoint, apiList ) {
     let {
       name, // api call name,
       options, // api call options
-      actions: { success, failure } // action creators
+      actions: { success, failure }, // action creators
     } = meta.api;
 
     if ( ! apiList[ name ] ){
@@ -59,9 +59,9 @@ export function createAPIMiddleware( endpoint, apiList ) {
         action = {
           type: success,
           payload: {
-            response
-          }
-        }
+            response,
+          },
+        };
       }
 
       next( action );
@@ -81,14 +81,14 @@ export function createAPIMiddleware( endpoint, apiList ) {
         action = {
           type: failure,
           payload: {
-            error
-          }
-        }
+            error,
+          },
+        };
       }
 
       next( action );
     });
 
     next( action );
-  }
+  };
 }
