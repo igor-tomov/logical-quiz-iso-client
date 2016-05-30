@@ -19,8 +19,10 @@
 
     resolve: {
       alias: {
+        config: __dirname + "/src/config",
         util:   __dirname + "/src/util",
-        shared: __dirname + "/src/components/shared"
+        shared: __dirname + "/src/components/shared",
+        i18n:   __dirname + "/src/i18n"
       }
     },
 

@@ -1,10 +1,10 @@
-import I18n from 'react-native-i18n';
+import i18n from 'react-native-i18n';
 
-I18n.fallbacks = true;
+i18n.fallbacks = true;
 
-I18n.translations = {
-  en: require('./locales/en.json'),
+i18n.translations = {
+  en:    require('./locales/en.json'),
   ru_RU: require('./locales/ru_RU.json'),
 };
 
-export default I18n;
+export default i18n;
