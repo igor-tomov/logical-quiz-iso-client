@@ -6,6 +6,7 @@ import Root from './QuizScene';
 
 
 export default function App ({ store }) {
+  // todo: should be implement with Navigator iOS
   return (
     <Provider store={store}>
       <Root />

@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react-native';
-import {bindActionCreators} from 'redux';
+import React, {Component} from 'react-native';
 import {connect} from 'react-redux';
 
 import QuizScene from './QuizScene';
@@ -15,13 +14,6 @@ class QuizSceneContainer extends Component {
   }
 }
 
-QuizSceneContainer.propTypes = {
-  actions: PropTypes.object.isRequired,
-};
 
 
-
-export default connect(
-  state => ({ quiz: state.quiz }),
-  dispatch => ({ actions: bindActionCreators( quizActions, dispatch ) })
-)( QuizSceneContainer );
+export default connect( state => ({ quiz: state.quiz }), quizActions )( QuizSceneContainer );
