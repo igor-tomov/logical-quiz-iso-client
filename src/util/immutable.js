@@ -42,5 +42,5 @@ export function applyReducers( state, ...reducers ) {
   return reducers.reduce(
     ( state, reducer ) => reducer( state, payload ),
     state
-  )
+  );
 }

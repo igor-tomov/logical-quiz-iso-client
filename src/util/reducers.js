@@ -17,8 +17,8 @@ export function disableFetching ( state ) {
 export function setFetchableFailure ( state, payload ) {
   return state.merge({
     isFetchingFailed: true,
-    fetchingFailedReason: payload.error || null
-  })
+    fetchingFailedReason: payload.error || null,
+  });
 }
 
 
@@ -26,8 +26,8 @@ export function setFetchableFailure ( state, payload ) {
 export function resetFetchableFailure( state ) {
   return state.merge({
     isFetchingFailed: false,
-    fetchingFailedReason: null
-  })
+    fetchingFailedReason: null,
+  });
 }
 
 

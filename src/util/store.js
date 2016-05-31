@@ -8,8 +8,8 @@ export function fetchableState () {
     isFetching: false,
     isFetchingFailed: false,
     fetchingFailedReason: null,
-    lastUpdate: Date.now()
-  }
+    lastUpdate: Date.now(),
+  };
 }
 
 
@@ -24,8 +24,8 @@ export function processableState () {
   return {
     isProcessing: false,
     isProcessingFailed: false,
-    processingFailedPayload: null
-  }
+    processingFailedPayload: null,
+  };
 }
 
 
@@ -35,8 +35,8 @@ export function getFormFieldState(){
     value: null,
     isInvalid: false,
     invalidMessage: null,
-    disabled: false
-  }
+    disabled: false,
+  };
 }
 
 
