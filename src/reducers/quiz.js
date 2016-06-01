@@ -7,9 +7,9 @@ import {
 } from 'util/reducers';
 
 import {
-  FETCH_QUIZ_REQUEST,
-  FETCH_QUIZ_SUCCESS,
-  //FETCH_QUIZ_FAILURE,
+  FETCH_QUIZ_QUESTIONS_REQUEST,
+  FETCH_QUIZ_QUESTIONS_SUCCESS,
+  //FETCH_QUIZ_QUESTIONS_FAILURE,
 } from '../actions/quiz';
 
 
@@ -30,7 +30,10 @@ const initialQuizState = composeState(
 
 
 function setQuizData( state, payload ) {
-  return state.merge( payload.quiz );
+  return state.merge({
+    id:         payload.quizId,
+    questions:  payload.questions,
+  });
 }
 
 
@@ -39,10 +42,10 @@ export default function ( state = initialQuizState, action ) {
 
   switch ( action.type ) {
 
-    case FETCH_QUIZ_REQUEST:
+    case FETCH_QUIZ_QUESTIONS_REQUEST:
       return enableFetching( state );
 
-    case FETCH_QUIZ_SUCCESS:
+    case FETCH_QUIZ_QUESTIONS_SUCCESS:
       return applyReducers(
         state,
         action.payload,

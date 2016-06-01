@@ -1,11 +1,11 @@
-export const FETCH_QUIZ_REQUEST = 'FETCH_QUIZ_REQUEST';
-export function fetchQuiz( quizId ) {
+export const FETCH_QUIZ_QUESTIONS_REQUEST = 'FETCH_QUIZ_QUESTIONS_REQUEST';
+export function fetchQuizQuestions(quizId ) {
   return {
-    type: FETCH_QUIZ_REQUEST,
+    type: FETCH_QUIZ_QUESTIONS_REQUEST,
 
     meta: {
       api: {
-        name: 'fetchQuiz',
+        name: 'fetchQuizQuestions',
         options: {
           quizId,
         },
@@ -20,22 +20,23 @@ export function fetchQuiz( quizId ) {
 
 
 
-export const FETCH_QUIZ_SUCCESS = 'FETCH_QUIZ_SUCCESS';
-function fetchQuizSuccess ( quiz ) {
+export const FETCH_QUIZ_QUESTIONS_SUCCESS = 'FETCH_QUIZ_QUESTIONS_SUCCESS';
+function fetchQuizSuccess ( questions, { quizId } ) {
   return {
-    type: FETCH_QUIZ_SUCCESS,
+    type: FETCH_QUIZ_QUESTIONS_SUCCESS,
     payload: {
-      quiz,
+      quizId,
+      questions,
     },
   };
 }
 
 
 
-export const FETCH_QUIZ_FAILURE = 'FETCH_QUIZ_FAILURE';
+export const FETCH_QUIZ_QUESTIONS_FAILURE = 'FETCH_QUIZ_QUESTIONS_FAILURE';
 function fetchQuizFailure ( error, { quizId } ) {
   return {
-    type: FETCH_QUIZ_FAILURE,
+    type: FETCH_QUIZ_QUESTIONS_FAILURE,
     payload: {
       quizId,
       error,

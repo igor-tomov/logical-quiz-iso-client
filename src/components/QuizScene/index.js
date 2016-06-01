@@ -12,10 +12,10 @@ class QuizSceneContainer extends Component {
   constructor ( props ) {
     super( props );
 
-    props.actions.fetchQuiz( '5728926cc4b03ef75a29397d' ); // todo: hardcoded, must be improved
+    props.actions.fetchQuizQuestions( '5728926cc4b03ef75a29397d' ); // todo: hardcoded, must be improved
   }
 
-  
+
 
   render(){
     const props = this.props;

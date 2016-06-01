@@ -4,15 +4,15 @@ import {createAPIMiddleware} from 'util/redux';
 
 const apiList = {
 
-  fetchQuiz( endpoint, { quizId } ){
-    return fetch( `${endpoint}/1.0/quizzes/${quizId}` )
+  fetchQuizQuestions( endpoint, { quizId } ){
+    return fetch( `${endpoint}/1.0/quizzes/${quizId}/questions/random` )
       .then( response => response.json() )
       .then( json => {
-        if ( ! json || ! json.quiz ){
+        if ( ! json || ! json.questions ){
           return Promise.reject( json );
         }
 
-        return json.quiz;
+        return json.questions;
       });
   },
 
