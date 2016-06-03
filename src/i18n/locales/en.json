@@ -1,5 +1,5 @@
 {
   "quiz": {
-    "welcome": "Welcome to Logical Quiz"
+    "question-loading-failed": "Quiz questions loading is failed"
   }
 }

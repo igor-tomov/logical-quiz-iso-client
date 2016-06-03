@@ -67,7 +67,7 @@ export function createAPIMiddleware( endpoint, apiList ) {
       next( action );
     })
     .catch( error => {
-      console.error( error instanceof Error ? error.stack : error );
+      //console.error( error instanceof Error ? error.stack : error );
 
       if ( ! failure ){
         return;

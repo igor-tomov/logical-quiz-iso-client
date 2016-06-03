@@ -12,10 +12,20 @@ import PureComponent from 'shared/PureComponent';
 import {COMMON_BACKGROUND_COLOR, COMMON_BORDER_COLOR} from 'config/colors';
 
 
+
 /**
  * Represents Question option
  */
 class QuizQuestionOption extends PureComponent {
+
+  static propTypes = {
+    id:             PropTypes.string.isRequired,
+    isFirstChild:   PropTypes.bool,
+    onClick:        PropTypes.func.isRequired,
+    value:          PropTypes.string.isRequired,
+  };
+
+
 
   constructor ( props ) {
     super( props );
@@ -34,9 +44,11 @@ class QuizQuestionOption extends PureComponent {
 
 
   render() {
+    const props = this.props;
+
     return (
       <TouchableHighlight onPress={this.handleOptionClick}>
-        <View style={styles.questionOption}>
+        <View style={[ styles.questionOption, props.isFirstChild && styles.firstQuestionOption ]}>
           <Text style={styles.questionOptionValue}>{this.props.value}</Text>
         </View>
       </TouchableHighlight>
@@ -45,31 +57,28 @@ class QuizQuestionOption extends PureComponent {
 }
 
 
-QuizQuestionOption.propTypes = {
-  id:       PropTypes.string.isRequired,
-  onClick:  PropTypes.func.isRequired,
-  value:    PropTypes.string.isRequired,
-};
-
-
 
 /**
  * Represents Quiz question
  */
 export default class QuizQuestion extends PureComponent {
 
+  static propTypes = {
+    onOptionSelect:   PropTypes.func.isRequired,
+    options:          PropTypes.object.isRequired,
+  };
+
+
+
   render(){
     const {options, onOptionSelect} = this.props;
 
-    if ( options.size < 1 ){
-      return null;
-    }
-
     return (
       <ScrollView contentContainerStyle={styles.questionContainer}>
-        {options.map( option =>
+        {options.map( ( option, i ) =>
           <QuizQuestionOption
               {...option.toObject()}
+              isFirstChild={i === 0}
               key={option.get('id')}
               onClick={onOptionSelect}
           /> )
@@ -80,10 +89,9 @@ export default class QuizQuestion extends PureComponent {
 }
 
 
-QuizQuestion.propTypes = {
-  onOptionSelect: PropTypes.func.isRequired,
-  options:        PropTypes.object.isRequired,
-};
+/**
+ * Quiz game container
+ */
 
 
 
@@ -103,6 +111,10 @@ const styles = StyleSheet.create({
     backgroundColor: COMMON_BACKGROUND_COLOR,
     borderColor: COMMON_BORDER_COLOR,
     borderBottomWidth: PixelRatio.getPixelSizeForLayoutSize( 1 ),
+  },
+
+  firstQuestionOption: {
+    borderTopWidth: PixelRatio.getPixelSizeForLayoutSize( 1 ),
   },
 
   questionOptionValue: {

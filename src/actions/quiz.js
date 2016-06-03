@@ -1,3 +1,4 @@
+// ---------------------------- fetch question actions ----------------------------
 export const FETCH_QUIZ_QUESTIONS_REQUEST = 'FETCH_QUIZ_QUESTIONS_REQUEST';
 export function fetchQuizQuestions(quizId ) {
   return {
@@ -41,5 +42,48 @@ function fetchQuizFailure ( error, { quizId } ) {
       quizId,
       error,
     },
+  };
+}
+
+
+
+// ---------------------------- quiz playing actions ----------------------------
+export const SELECT_QUESTION_OPTION = 'SELECT_QUESTION_OPTION';
+export function selectQuestionOption ( optionId ) {
+  return {
+    type: SELECT_QUESTION_OPTION,
+    payload: {
+      optionId,
+    },
+  };
+}
+
+
+
+export const QUESTION_TIMER_UPDATE = 'QUESTION_TIMER_UPDATE';
+export function questionTimerUpdate ( timerValue ) {
+  return {
+    type: QUESTION_TIMER_UPDATE,
+    payload: {
+      timerValue,
+    },
+  };
+}
+
+
+
+export const QUESTION_TIMER_TIMEOUT = 'QUESTION_TIMER_TIMEOUT';
+export function questionTimeout () {
+  return {
+    type: QUESTION_TIMER_TIMEOUT,
+  };
+}
+
+
+
+export const FINISH_QUIZ = 'FINISH_QUIZ';
+export function finishQuiz () {
+  return {
+    type: FINISH_QUIZ,
   };
 }

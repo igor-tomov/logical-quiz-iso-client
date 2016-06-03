@@ -1,4 +1,4 @@
-import React, {PropTypes, ActivityIndicatorIOS} from 'react-native';
+import React, {PropTypes, View, ActivityIndicatorIOS} from 'react-native';
 
 
 
@@ -7,21 +7,24 @@ export default function LoadableContent( props ) {
     return props.children;
   } else {
     return (
-      <ActivityIndicatorIOS
-          animating
-          color={props.indicatorColor}
-          size={props.indicatorSize}
-      />
+      <View style={props.indicatorStyle}>
+        <ActivityIndicatorIOS
+            animating
+            color={props.indicatorColor}
+            size={props.indicatorSize}
+        />
+      </View>
     );
   }
 }
 
 
 LoadableContent.propTypes = {
-  children:       PropTypes.node,
-  indicatorColor: PropTypes.string,
-  indicatorSize:  PropTypes.oneOf( ['small', 'large'] ),
-  loaded:         PropTypes.bool,
+  children:         PropTypes.node,
+  indicatorColor:   PropTypes.string,
+  indicatorSize:    PropTypes.oneOf( ['small', 'large'] ),
+  indicatorStyle:   PropTypes.oneOfType( [PropTypes.number, PropTypes.object] ),
+  loaded:           PropTypes.bool,
 };
 
 
