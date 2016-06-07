@@ -18,10 +18,8 @@ class QuizSceneContainer extends Component {
 
 
 
-  constructor ( props ) {
-    super( props );
-
-    props.actions.fetchQuizQuestions( '5728926cc4b03ef75a29397d' ); // todo: hardcoded, must be improved
+  componentWillMount () {
+    this.props.actions.fetchQuizQuestions( '5728926cc4b03ef75a29397d' ); // todo: hardcoded, must be improved
   }
 
 
@@ -29,7 +27,7 @@ class QuizSceneContainer extends Component {
   render(){
     const {quiz, actions} = this.props;
 
-    if ( quiz.get( 'questionIndex' ) === -1 ) { //bootstrap state
+    if ( quiz.get( 'idle' ) ) { //bootstrap state
       return null;
     }
 

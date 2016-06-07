@@ -21,6 +21,7 @@ import {
 const initialQuizState = composeState(
   fetchableState,
   {
+    idle: true,
     timerValue: 0,
     id: null,
     title: null,
@@ -28,9 +29,15 @@ const initialQuizState = composeState(
     thumbnail: '',
     questions: [],
     passedQuestions: [],
-    questionIndex: -1,
+    questionIndex: 0,
   }
 );
+
+
+
+function disableIdle( state ) {
+  return state.set( 'idle', false );
+}
 
 
 
@@ -39,12 +46,6 @@ function setQuizData( state, { quizId, questions } ) {
     id: quizId,
     questions,
   });
-}
-
-
-
-function questionIndexWithZero( state ) {
-  return state.set( 'questionIndex', 0 );
 }
 
 
@@ -71,13 +72,16 @@ export default function ( state = initialQuizState, action ) {
   switch ( action.type ) {
 
     case FETCH_QUIZ_QUESTIONS_REQUEST:
-      return enableFetching( state );
+      return applyReducers(
+        state,
+        disableIdle,
+        enableFetching
+      );
 
     case FETCH_QUIZ_QUESTIONS_SUCCESS:
       return applyReducers(
         state,
         action.payload,
-        questionIndexWithZero,
         disableFetching,
         resetFetchableFailure,
         setQuizData
@@ -87,8 +91,7 @@ export default function ( state = initialQuizState, action ) {
       return applyReducers(
         state,
         action.payload,
-        setFetchableFailure,
-        questionIndexWithZero
+        setFetchableFailure
       );
 
     case SELECT_QUESTION_OPTION:

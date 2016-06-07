@@ -29,7 +29,7 @@ export default class QuizScene extends PureComponent {
     const { quiz, actions } = this.props;
 
     if ( quiz.get( 'isFetchingFailed' ) ) {
-      this._renderLoadingFailureMessage();
+      return this._renderLoadingFailureMessage();
     }
 
     const [ questions, questionIndex ] = [ quiz.get( 'questions' ), quiz.get( 'questionIndex' ) ];
