@@ -1,12 +1,12 @@
-//import {QUIZ_TIMEOUT} from 'config';
-import {composeState, applyReducers} from 'util/immutable';
-import {fetchableState} from 'util/store';
+import {QUIZ_TIMEOUT} from '../config';
+import {composeState, applyReducers} from '../util/immutable';
+import {fetchableState} from '../util/store';
 import {
   enableFetching,
   disableFetching,
   setFetchableFailure,
   resetFetchableFailure,
-} from 'util/reducers';
+} from '../util/reducers';
 
 import {
   FETCH_QUIZ_QUESTIONS_REQUEST,
@@ -14,6 +14,9 @@ import {
   FETCH_QUIZ_QUESTIONS_FAILURE,
 
   SELECT_QUESTION_OPTION,
+  UPDATE_QUESTION_TIMER,
+  TIMEOUT_QUESTION_TIMER,
+  //NEXT_QUESTION,
 } from '../actions/quiz';
 
 
@@ -22,6 +25,7 @@ const initialQuizState = composeState(
   fetchableState,
   {
     idle: true,
+    timeout: QUIZ_TIMEOUT,
     timerValue: 0,
     id: null,
     title: null,
@@ -35,34 +39,55 @@ const initialQuizState = composeState(
 
 
 
-function disableIdle( state ) {
+export function disableIdle( state ) {
   return state.set( 'idle', false );
 }
 
 
 
-function setQuizData( state, { quizId, questions } ) {
+export function setQuizData( state, { quizId, questions } ) {
   return state.merge({
     id: quizId,
+    timerValue: state.get( 'timeout' ),
     questions,
   });
 }
 
 
 
-function selectQuestionOption( state, { optionId } ) {
-  const questionIndex = state.get( 'questionIndex' );
+export function selectQuestionOption( state, { optionId } ) {
+  const question = state.getIn( [ 'questions', state.get( 'questionIndex' ) ] );
 
-  if ( state.getIn( [ 'questions', questionIndex, 'target' ] ) === optionId ){
+  if ( question.get( 'target' ) === optionId ){
     state = state.set(
       'passedQuestions',
       state.get( 'passedQuestions' ).push(
-        state.getIn( [ 'questions', questionIndex, 'id' ] )
+        state.getIn( question.get( 'id' ) )
       )
     );
   }
 
-  return state.set( 'questionIndex', questionIndex + 1 );
+  return state;
+}
+
+
+export function nextQuestion ( state ) {
+  return state.merge({
+    questionIndex: state.get( 'questionIndex' ) + 1,
+    timerValue:    state.get( 'timeout' ),
+  });
+}
+
+
+
+export function updateTimer( state ) {
+  const timerValue = state.get( 'timerValue' );
+
+  if ( timerValue > 0 ) {
+    state = state.set( 'timerValue', timerValue - 1 );
+  }
+
+  return state;
 }
 
 
@@ -95,7 +120,18 @@ export default function ( state = initialQuizState, action ) {
       );
 
     case SELECT_QUESTION_OPTION:
-      return selectQuestionOption( state, action.payload );
+      return applyReducers(
+        state,
+        action.payload,
+        selectQuestionOption,
+        nextQuestion
+      );
+
+    case UPDATE_QUESTION_TIMER:
+      return updateTimer( state );
+
+    case TIMEOUT_QUESTION_TIMER:
+      return nextQuestion( state );
   }
 
   return state;
