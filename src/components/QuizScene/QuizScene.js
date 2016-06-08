@@ -3,6 +3,8 @@ import {COMMON_BACKGROUND_COLOR} from 'config/colors';
 import PureComponent from 'shared/PureComponent';
 import i18n from 'i18n';
 import QuizQuestion from './QuizQuestion';
+import QuizTimer from './QuizTimer';
+import QuizScoreBoard from './QuizScoreBoard';
 
 
 
@@ -25,6 +27,21 @@ export default class QuizScene extends PureComponent {
 
 
 
+  _renderResultView(){
+    const { quiz } = this.props;
+
+    return (
+      <View style={{ flex: 1 }}>
+        <QuizScoreBoard
+            current={quiz.get( 'passedQuestions' ).size}
+            total={quiz.get( 'questions' ).size}
+        />
+      </View>
+    );
+  }
+
+
+
   render () {
     const { quiz, actions } = this.props;
 
@@ -35,17 +52,29 @@ export default class QuizScene extends PureComponent {
     const [ questions, questionIndex ] = [ quiz.get( 'questions' ), quiz.get( 'questionIndex' ) ];
 
     if ( questionIndex >= questions.size ) {
-      //todo: trigger the game over action
-      return null;
+      //actions.finishQuiz();
+      return this._renderResultView(); // todo: tmp solution, must be navigated to the next scene
     }
 
     const options = questions.get( questionIndex ).get( 'options' );
 
     return (
-      <QuizQuestion
-          onOptionSelect={actions.selectQuestionOption}
-          options={options}
-      />
+      <View style={{ flex: 1 }}>
+        <View style={styles.quizHeader}>
+          <QuizTimer
+              onTimeout={actions.timeoutQuestion}
+              value={quiz.get( 'timerValue' )}
+          />
+          <QuizScoreBoard
+              current={quiz.get( 'passedQuestions' ).size}
+              total={questions.size}
+          />
+        </View>
+        <QuizQuestion
+            onOptionSelect={actions.selectQuestionOption}
+            options={options}
+        />
+      </View>
     );
   }
 }
@@ -53,6 +82,12 @@ export default class QuizScene extends PureComponent {
 
 
 const styles = StyleSheet.create({
+
+  quizHeader: {
+    //flex: 1,
+    marginTop: PixelRatio.getPixelSizeForLayoutSize( 15 ),
+    flexDirection: 'row',
+  },
 
   container: {
     flex: 1,

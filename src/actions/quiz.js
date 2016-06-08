@@ -25,6 +25,15 @@ export const FETCH_QUIZ_QUESTIONS_SUCCESS = 'FETCH_QUIZ_QUESTIONS_SUCCESS';
 function fetchQuizSuccess ( questions, { quizId } ) {
   return {
     type: FETCH_QUIZ_QUESTIONS_SUCCESS,
+    // todo: must be removed
+    meta: {
+      timeIntervalEmitter: {
+        type:   'start',
+        name:   'quiz-question',
+        emit:   updateQuestionTimer,
+      },
+    },
+
     payload: {
       quizId,
       questions,
@@ -52,6 +61,15 @@ export const SELECT_QUESTION_OPTION = 'SELECT_QUESTION_OPTION';
 export function selectQuestionOption ( optionId ) {
   return {
     type: SELECT_QUESTION_OPTION,
+
+    meta: {
+      timeIntervalEmitter: {
+        type:   'start',
+        name:   'quiz-question',
+        emit:   updateQuestionTimer,
+      },
+    },
+
     payload: {
       optionId,
     },
@@ -60,22 +78,35 @@ export function selectQuestionOption ( optionId ) {
 
 
 
-export const QUESTION_TIMER_UPDATE = 'QUESTION_TIMER_UPDATE';
-export function questionTimerUpdate ( timerValue ) {
+export const NEXT_QUESTION = 'NEXT_QUESTION';
+export function nextQuestion () {
   return {
-    type: QUESTION_TIMER_UPDATE,
-    payload: {
-      timerValue,
+    type: NEXT_QUESTION,
+    meta: {
+      timeIntervalEmitter: {
+        type:   'start',
+        name:   'quiz-question',
+        emit:   updateQuestionTimer,
+      },
     },
   };
 }
 
 
 
-export const QUESTION_TIMER_TIMEOUT = 'QUESTION_TIMER_TIMEOUT';
-export function questionTimeout () {
+export const UPDATE_QUESTION_TIMER = 'UPDATE_QUESTION_TIMER';
+export function updateQuestionTimer () {
   return {
-    type: QUESTION_TIMER_TIMEOUT,
+    type: UPDATE_QUESTION_TIMER,
+  };
+}
+
+
+
+export const TIMEOUT_QUESTION_TIMER = 'TIMEOUT_QUESTION_TIMER';
+export function timeoutQuestion () {
+  return {
+    type: TIMEOUT_QUESTION_TIMER,
   };
 }
 
@@ -85,5 +116,11 @@ export const FINISH_QUIZ = 'FINISH_QUIZ';
 export function finishQuiz () {
   return {
     type: FINISH_QUIZ,
+    meta: {
+      timeIntervalEmitter: {
+        type:   'stop',
+        name:   'quiz-question',
+      },
+    },
   };
 }

@@ -6,6 +6,7 @@ import createLogger from 'redux-logger';
 import {API_ENDPOINT} from 'config';
 import rootReducer from '../reducers';
 import createApiMiddleware from '../middleware/api';
+import timeIntervalEmitter from '../middleware/timeIntervalEmitter';
 
 
 
@@ -33,6 +34,7 @@ export default () => createStore(
     applyMiddleware(
       thunk,
       createApiMiddleware( API_ENDPOINT ),
+      timeIntervalEmitter,
       logger
     )
   )
