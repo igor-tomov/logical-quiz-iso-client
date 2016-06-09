@@ -5,6 +5,7 @@ import React, {
   ScrollView,
   TouchableHighlight,
   View,
+  Easing,
   Animated,
 } from 'react-native';
 
@@ -39,11 +40,25 @@ class QuizQuestionOption extends PureComponent {
     super( props );
 
     this.state = {
-      translateXText: new Animated.Value( 0 ),
-      scaleText:      new Animated.Value( 1 ),
-      textColor:      COMMON_TEXT_COLOR,
-      isAnimating:    false,
+      shakeText:    new Animated.Value( 0 ),
+      scaleText:    new Animated.Value( 0 ),
+      textColor:    COMMON_TEXT_COLOR,
+      isAnimating:  false,
     };
+
+    // temporary shortcut
+    const p = value => PixelRatio.getPixelSizeForLayoutSize( value );
+
+    // interpolated values
+    this.state.interpolatedShakeText = this.state.shakeText.interpolate({
+      inputRange:   [0,  20,     40,       60,     80,      100],
+      outputRange:  [0,  p( 5 ), p( -5 ),  p( 5 ), p( -5 ),   0],
+    });
+
+    this.state.interpolatedScaleText = this.state.scaleText.interpolate({
+      inputRange:   [0, 25,  50],
+      outputRange:  [1, 1.2,  1],
+    });
 
     this.handleOptionClick = this.handleOptionClick.bind( this );
   }
@@ -52,10 +67,13 @@ class QuizQuestionOption extends PureComponent {
 
   animateSuccess () {
     return new Promise( resolve =>
-      Animated.sequence([
-        Animated.timing( this.state.scaleText, { toValue: 1.2, duration: 400 } ),
-        Animated.timing( this.state.scaleText, { toValue: 1, duration: 400 } ),
-      ]).start( resolve )
+      Animated.timing(
+        this.state.scaleText,
+        {
+          toValue: 50,
+          duration: 800,
+        }
+      ).start( resolve )
     );
   }
 
@@ -63,29 +81,14 @@ class QuizQuestionOption extends PureComponent {
 
   animateFailure () {
     return new Promise( resolve =>
-      Animated.sequence([
-        Animated.timing(
-          this.state.translateXText,
-          {
-            toValue: PixelRatio.getPixelSizeForLayoutSize( 5 ),
-            duration: 200,
-          }
-        ),
-        Animated.timing(
-          this.state.translateXText,
-          {
-            toValue: PixelRatio.getPixelSizeForLayoutSize( -5 ),
-            duration: 400,
-          }
-        ),
-        Animated.timing(
-          this.state.translateXText,
-          {
-            toValue: PixelRatio.getPixelSizeForLayoutSize( 0 ),
-            duration: 200,
-          }
-        ),
-      ]).start( resolve )
+      Animated.timing(
+        this.state.shakeText,
+        {
+          toValue: 100,
+          duration: 800,
+          easing: Easing.inOut( Easing.linear ),
+        }
+      ).start( resolve )
     );
   }
 
@@ -119,7 +122,7 @@ class QuizQuestionOption extends PureComponent {
 
   render() {
     const props = this.props;
-    const { textColor, translateXText, scaleText }  = this.state;
+    const { textColor, interpolatedShakeText, interpolatedScaleText }  = this.state;
 
     return (
       <TouchableHighlight onPress={this.handleOptionClick}>
@@ -130,9 +133,9 @@ class QuizQuestionOption extends PureComponent {
                 {
                   color: textColor,
                   transform: [
-                    { translateX: translateXText },
-                    { scaleX: scaleText },
-                    { scaleY: scaleText },
+                    { translateX: interpolatedShakeText },
+                    { scaleX: interpolatedScaleText },
+                    { scaleY: interpolatedScaleText },
                   ],
                 },
               ]}
