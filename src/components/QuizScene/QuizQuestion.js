@@ -5,11 +5,17 @@ import React, {
   ScrollView,
   TouchableHighlight,
   View,
-  Text,
+  Animated,
 } from 'react-native';
 
 import PureComponent from 'shared/PureComponent';
-import {COMMON_BACKGROUND_COLOR, COMMON_BORDER_COLOR} from 'config/colors';
+import {
+  COMMON_BACKGROUND_COLOR,
+  COMMON_BORDER_COLOR,
+  COMMON_TEXT_COLOR,
+  QUESION_OPTION_SUCCESS_COLOR,
+  QUESION_OPTION_FAILURE_COLOR,
+} from 'config/colors';
 
 
 
@@ -22,6 +28,8 @@ class QuizQuestionOption extends PureComponent {
     id:             PropTypes.string.isRequired,
     isFirstChild:   PropTypes.bool,
     onClick:        PropTypes.func.isRequired,
+    onNext:         PropTypes.func.isRequired,
+    target:         PropTypes.string.isRequired,
     value:          PropTypes.string.isRequired,
   };
 
@@ -30,26 +38,108 @@ class QuizQuestionOption extends PureComponent {
   constructor ( props ) {
     super( props );
 
+    this.state = {
+      translateXText: new Animated.Value( 0 ),
+      scaleText:      new Animated.Value( 1 ),
+      textColor:      COMMON_TEXT_COLOR,
+      isAnimating:    false,
+    };
+
     this.handleOptionClick = this.handleOptionClick.bind( this );
   }
 
 
 
-  handleOptionClick () {
-    const {id, onClick} = this.props;
+  animateSuccess () {
+    return new Promise( resolve =>
+      Animated.sequence([
+        Animated.timing( this.state.scaleText, { toValue: 1.2, duration: 400 } ),
+        Animated.timing( this.state.scaleText, { toValue: 1, duration: 400 } ),
+      ]).start( resolve )
+    );
+  }
 
-    onClick( id );
+
+
+  animateFailure () {
+    return new Promise( resolve =>
+      Animated.sequence([
+        Animated.timing(
+          this.state.translateXText,
+          {
+            toValue: PixelRatio.getPixelSizeForLayoutSize( 5 ),
+            duration: 200,
+          }
+        ),
+        Animated.timing(
+          this.state.translateXText,
+          {
+            toValue: PixelRatio.getPixelSizeForLayoutSize( -5 ),
+            duration: 400,
+          }
+        ),
+        Animated.timing(
+          this.state.translateXText,
+          {
+            toValue: PixelRatio.getPixelSizeForLayoutSize( 0 ),
+            duration: 200,
+          }
+        ),
+      ]).start( resolve )
+    );
+  }
+
+
+
+  handleOptionClick () {
+    if ( ! this.state.isAnimating ){
+      const {id, target, onClick, onNext} = this.props;
+      let textColor, animationPromise;
+
+      if ( target === id ) {
+        animationPromise = this.animateSuccess();
+        textColor        = QUESION_OPTION_SUCCESS_COLOR;
+      } else {
+        animationPromise = this.animateFailure();
+        textColor        = QUESION_OPTION_FAILURE_COLOR;
+      }
+
+      onClick( id );
+
+      this.setState({
+        isAnimating: true,
+        textColor,
+      });
+
+      animationPromise.then( onNext );
+    }
   }
 
 
 
   render() {
     const props = this.props;
+    const { textColor, translateXText, scaleText }  = this.state;
 
     return (
       <TouchableHighlight onPress={this.handleOptionClick}>
         <View style={[ styles.questionOption, props.isFirstChild && styles.firstQuestionOption ]}>
-          <Text style={styles.questionOptionValue}>{this.props.value}</Text>
+          <Animated.Text
+              style={[
+                styles.questionOptionValue,
+                {
+                  color: textColor,
+                  transform: [
+                    { translateX: translateXText },
+                    { scaleX: scaleText },
+                    { scaleY: scaleText },
+                  ],
+                },
+              ]}
+
+          >
+            {this.props.value}
+          </Animated.Text>
         </View>
       </TouchableHighlight>
     );
@@ -64,14 +154,16 @@ class QuizQuestionOption extends PureComponent {
 export default class QuizQuestion extends PureComponent {
 
   static propTypes = {
+    onNextQuestion:   PropTypes.func.isRequired,
     onOptionSelect:   PropTypes.func.isRequired,
     options:          PropTypes.object.isRequired,
+    target:           PropTypes.string.isRequired,
   };
 
 
 
   render(){
-    const {options, onOptionSelect} = this.props;
+    const {options, target, onOptionSelect, onNextQuestion} = this.props;
 
     return (
       <ScrollView contentContainerStyle={styles.questionContainer}>
@@ -81,6 +173,8 @@ export default class QuizQuestion extends PureComponent {
               isFirstChild={i === 0}
               key={option.get('id')}
               onClick={onOptionSelect}
+              onNext={onNextQuestion}
+              target={target}
           /> )
         }
       </ScrollView>

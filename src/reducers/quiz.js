@@ -16,7 +16,7 @@ import {
   SELECT_QUESTION_OPTION,
   UPDATE_QUESTION_TIMER,
   TIMEOUT_QUESTION_TIMER,
-  //NEXT_QUESTION,
+  NEXT_QUESTION,
 } from '../actions/quiz';
 
 
@@ -120,12 +120,10 @@ export default function ( state = initialQuizState, action ) {
       );
 
     case SELECT_QUESTION_OPTION:
-      return applyReducers(
-        state,
-        action.payload,
-        selectQuestionOption,
-        nextQuestion
-      );
+      return selectQuestionOption( state, action.payload );
+
+    case NEXT_QUESTION:
+      return nextQuestion( state );
 
     case UPDATE_QUESTION_TIMER:
       return updateTimer( state );

@@ -25,7 +25,7 @@ export const FETCH_QUIZ_QUESTIONS_SUCCESS = 'FETCH_QUIZ_QUESTIONS_SUCCESS';
 function fetchQuizSuccess ( questions, { quizId } ) {
   return {
     type: FETCH_QUIZ_QUESTIONS_SUCCESS,
-    // todo: must be removed
+
     meta: {
       timeIntervalEmitter: {
         type:   'start',
@@ -64,7 +64,7 @@ export function selectQuestionOption ( optionId ) {
 
     meta: {
       timeIntervalEmitter: {
-        type:   'start',
+        type:   'stop',
         name:   'quiz-question',
         emit:   updateQuestionTimer,
       },

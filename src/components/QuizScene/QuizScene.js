@@ -52,11 +52,12 @@ export default class QuizScene extends PureComponent {
     const [ questions, questionIndex ] = [ quiz.get( 'questions' ), quiz.get( 'questionIndex' ) ];
 
     if ( questionIndex >= questions.size ) {
-      //actions.finishQuiz();
+      actions.finishQuiz();
       return this._renderResultView(); // todo: tmp solution, must be navigated to the next scene
     }
 
-    const options = questions.get( questionIndex ).get( 'options' );
+    const question = questions.get( questionIndex );
+    const [options, target] = [ question.get( 'options' ), question.get( 'target' ) ];
 
     return (
       <View style={{ flex: 1 }}>
@@ -71,8 +72,10 @@ export default class QuizScene extends PureComponent {
           />
         </View>
         <QuizQuestion
+            onNextQuestion={actions.nextQuestion}
             onOptionSelect={actions.selectQuestionOption}
             options={options}
+            target={target}
         />
       </View>
     );
