@@ -56,14 +56,14 @@ export function setQuizData( state, { quizId, questions } ) {
 
 
 export function selectQuestionOption( state, { optionId } ) {
-  const question = state.getIn( [ 'questions', state.get( 'questionIndex' ) ] );
+  const question        = state.getIn( [ 'questions', state.get( 'questionIndex' ) ] );
+  const passedQuestions = state.get( 'passedQuestions' );
+  const questionId      = question.get( 'id' );
 
-  if ( question.get( 'target' ) === optionId ){
+  if ( question.get( 'target' ) === optionId  && ! passedQuestions.includes( questionId ) ){
     state = state.set(
       'passedQuestions',
-      state.get( 'passedQuestions' ).push(
-        state.getIn( question.get( 'id' ) )
-      )
+      passedQuestions.push( questionId )
     );
   }
 
