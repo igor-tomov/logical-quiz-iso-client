@@ -1,4 +1,5 @@
-import React, { AppRegistry } from 'react-native';
+import React from 'react';
+import { AppRegistry } from 'react-native';
 import App from './components/App.ios';
 import createConfiguredStore from './store/configureStore';
 
@@ -9,4 +10,4 @@ const AppWithStore = () => <App store={store} />;
 
 
 
-AppRegistry.registerComponent('App', () => AppWithStore );
+AppRegistry.registerComponent('LogicalQuizISOApp', () => AppWithStore );

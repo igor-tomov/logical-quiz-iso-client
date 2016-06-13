@@ -1,4 +1,5 @@
-import React, {Component, PropTypes, StyleSheet, PixelRatio, View} from 'react-native';
+import React, {Component, PropTypes} from 'react';
+import {StyleSheet, PixelRatio, View} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 

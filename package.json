@@ -1,5 +1,5 @@
 {
-  "name": "logical-quiz-ios-app",
+  "name": "LogicalQuizISOApp",
   "version": "0.1.0",
   "description": "iOS client for Logical-quiz game",
   "author": "Igor Tomov <stepennwolf@gmail.com>",
@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "immutable": "^3.8.1",
-    "react": "^0.14.7",
-    "react-native": "^0.24.0",
+    "react": "^15.1.0",
+    "react-native": "^0.27.2",
     "react-native-i18n": "0.0.8",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",
@@ -50,6 +50,7 @@
     "babel-loader": "^6.2.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
+    "babel-preset-react-native-stage-0": "^1.0.1",
     "babel-preset-stage-1": "^6.3.13",
     "chai": "^3.5.0",
     "chai-immutable": "^1.5.4",

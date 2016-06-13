@@ -1,4 +1,5 @@
-import React, {PropTypes, View, ActivityIndicatorIOS} from 'react-native';
+import React, {PropTypes} from 'react';
+import {View, ActivityIndicatorIOS} from 'react-native';
 
 
 

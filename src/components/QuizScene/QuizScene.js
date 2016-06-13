@@ -1,4 +1,5 @@
-import React, {PropTypes, StyleSheet, PixelRatio, View, Text} from 'react-native';
+import React, {PropTypes} from 'react';
+import {StyleSheet, PixelRatio, View, Text} from 'react-native';
 import {COMMON_BACKGROUND_COLOR} from 'config/colors';
 import PureComponent from 'shared/PureComponent';
 import i18n from 'i18n';
