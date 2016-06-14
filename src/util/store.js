@@ -5,6 +5,7 @@
 
 export function fetchableState () {
   return {
+    isIdle: true,
     isFetching: false,
     isFetchingFailed: false,
     fetchingFailedReason: null,

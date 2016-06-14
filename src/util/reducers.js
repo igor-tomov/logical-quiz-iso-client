@@ -2,6 +2,18 @@
  * Provides collection of reusable reducer functions
  */
 
+export function enableIdle ( state ) {
+  return state.set( 'isIdle', true );
+}
+
+
+
+export function disableIdle ( state ) {
+  return state.set( 'isIdle', false );
+}
+
+
+
 export function enableFetching ( state ) {
   return state.set( 'isFetching', true );
 }
