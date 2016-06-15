@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {Provider} from 'react-redux';
 // todo: temporary root component
-import Root from './QuizScene';
-//import Root from './NavigationRoot';
+//import Root from './QuizScene';
+import Root from './NavigationRoot';
 
 
 

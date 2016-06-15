@@ -1,5 +1,6 @@
 {
   "quiz": {
-    "question-loading-failed": "Quiz questions loading is failed"
+    "question-loading-failed": "Quiz questions loading is failed",
+    "subjects-loading-failed": "Quiz subjects loading is failed"
   }
 }

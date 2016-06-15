@@ -2,6 +2,7 @@ import {QUIZ_TIMEOUT} from '../config';
 import {composeState, applyReducers} from '../util/immutable';
 import {fetchableState} from '../util/store';
 import {
+  disableIdle,
   enableFetching,
   disableFetching,
   setFetchableFailure,
@@ -24,7 +25,6 @@ import {
 const initialQuizState = composeState(
   fetchableState,
   {
-    idle: true,
     timeout: QUIZ_TIMEOUT,
     timerValue: 0,
     id: null,
@@ -36,12 +36,6 @@ const initialQuizState = composeState(
     questionIndex: 0,
   }
 );
-
-
-
-export function disableIdle( state ) {
-  return state.set( 'idle', false );
-}
 
 
 

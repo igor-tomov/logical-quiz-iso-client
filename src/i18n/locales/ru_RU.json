@@ -1,5 +1,6 @@
 {
   "quiz": {
-    "question-loading-failed": "Не удалось загрузить тестовые вопросы"
+    "question-loading-failed": "Не удалось загрузить тестовые вопросы",
+    "subjects-loading-failed": "Не удалось загрузить категории тестов"
   }
 }

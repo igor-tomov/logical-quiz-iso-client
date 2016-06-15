@@ -1,9 +1,11 @@
 import {combineReducers} from 'redux';
-import quiz from './quiz';
 import navigation from './navigation';
+import subjects from './subjects';
+import quiz from './quiz';
 
 
 export default combineReducers({
   navigation,
+  subjects,
   quiz,
 });

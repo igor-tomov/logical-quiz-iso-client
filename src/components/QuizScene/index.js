@@ -1,16 +1,15 @@
-import React, {Component, PropTypes} from 'react';
-import {StyleSheet, PixelRatio, View} from 'react-native';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-
+import React, {PropTypes} from 'react';
+import {StyleSheet, PixelRatio, View, Text} from 'react-native';
 import {COMMON_BACKGROUND_COLOR} from 'config/colors';
-import LoadableContent from 'shared/LoadableContent.ios';
-import QuizScene from './QuizScene';
-import * as quizActions from '../../actions/quiz';
+import PureComponent from 'shared/PureComponent';
+import i18n from 'i18n';
+import QuizQuestion from './QuizQuestion';
+import QuizTimer from './QuizTimer';
+import QuizScoreBoard from './QuizScoreBoard';
 
 
 
-class QuizSceneContainer extends Component {
+export default class QuizScene extends PureComponent {
 
   static propTypes = {
     actions:  PropTypes.objectOf( PropTypes.func ).isRequired,
@@ -19,56 +18,84 @@ class QuizSceneContainer extends Component {
 
 
 
-  componentWillMount () {
-    this.props.actions.fetchQuizQuestions( '5728926cc4b03ef75a29397d' ); // todo: hardcoded, must be improved
+  _renderLoadingFailureMessage () {
+    return (
+      <View style={styles.loadingFailed}>
+        <Text style={styles.loadingFailedMessage}>{i18n.t( 'quiz.question-loading-failed' )}</Text>
+      </View>
+    );
   }
 
 
 
-  render(){
-    const {quiz, actions} = this.props;
-
-    if ( quiz.get( 'idle' ) ) { //bootstrap state
-      return null;
-    }
+  _renderResultView(){
+    const { quiz } = this.props;
 
     return (
-      <View style={styles.container}>
-        <LoadableContent
-            indicatorSize="large"
-            indicatorStyle={styles.loadingIndicator}
-            loaded={! quiz.get('isFetching')}
-        >
-          <QuizScene
-              actions={actions}
-              quiz={quiz}
-          />
-        </LoadableContent>
+      <View style={{ flex: 1 }}>
+        <QuizScoreBoard
+            current={quiz.get( 'passedQuestions' ).size}
+            total={quiz.get( 'questions' ).size}
+        />
       </View>
     );
+  }
 
+
+
+  render () {
+    const { quiz, actions } = this.props;
+
+    if ( quiz.get( 'isFetchingFailed' ) ) {
+      return this._renderLoadingFailureMessage();
+    }
+
+    const [ questions, questionIndex ] = [ quiz.get( 'questions' ), quiz.get( 'questionIndex' ) ];
+
+    if ( questionIndex >= questions.size ) {
+      actions.finishQuiz();
+      return this._renderResultView(); // todo: tmp solution, must be navigated to the next scene
+    }
+
+    const question = questions.get( questionIndex );
+    const [options, target] = [ question.get( 'options' ), question.get( 'target' ) ];
+
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={styles.quizHeader}>
+          <QuizTimer
+              onTimeout={actions.timeoutQuestion}
+              value={quiz.get( 'timerValue' )}
+          />
+          <QuizScoreBoard
+              current={quiz.get( 'passedQuestions' ).size}
+              total={questions.size}
+          />
+        </View>
+        <QuizQuestion
+            onNextQuestion={actions.nextQuestion}
+            onOptionSelect={actions.selectQuestionOption}
+            options={options}
+            target={target}
+        />
+      </View>
+    );
   }
 }
 
 
 
-export default connect(
-  state => ({ quiz: state.quiz }),
-  dispatch => ({ actions: bindActionCreators( quizActions, dispatch ) })
-)( QuizSceneContainer );
-
-
-
 const styles = StyleSheet.create({
+
+  quizHeader: {
+    //flex: 1,
+    marginTop: PixelRatio.getPixelSizeForLayoutSize( 15 ),
+    flexDirection: 'row',
+  },
 
   container: {
     flex: 1,
     backgroundColor: COMMON_BACKGROUND_COLOR,
-  },
-
-  loadingIndicator: {
-    flex: 1,
-    justifyContent: 'center',
   },
 
   loadingFailed: {
