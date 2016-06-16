@@ -3,6 +3,8 @@ import {StyleSheet, PixelRatio, View, Text, TouchableHighlight, ScrollView} from
 import {List} from 'immutable';
 import PureComponent from 'shared/PureComponent';
 
+import {COMMON_BACKGROUND_COLOR, COMMON_BORDER_COLOR} from 'config/colors';
+
 
 
 class QuizSubjectItem extends Component {
@@ -99,6 +101,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     height: PixelRatio.getPixelSizeForLayoutSize( 40 ),
     borderBottomWidth: PixelRatio.getPixelSizeForLayoutSize( .5 ),
+    backgroundColor: COMMON_BACKGROUND_COLOR,
+    borderColor: COMMON_BORDER_COLOR,
   },
 
   firstSubjectItem: {
