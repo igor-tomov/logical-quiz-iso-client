@@ -39,9 +39,14 @@ const initialQuizState = composeState(
 
 
 
-export function setQuizData( state, { quizId, questions } ) {
+export function setQuizData( state, { quizData } ) {
+  return state.merge( quizData );
+}
+
+
+
+export function setQuizQuestions( state, { questions } ) {
   return state.merge({
-    id: quizId,
     timerValue: state.get( 'timeout' ),
     questions,
   });
@@ -93,8 +98,10 @@ export default function ( state = initialQuizState, action ) {
     case FETCH_QUIZ_QUESTIONS_REQUEST:
       return applyReducers(
         state,
+        action.payload,
         disableIdle,
-        enableFetching
+        enableFetching,
+        setQuizData
       );
 
     case FETCH_QUIZ_QUESTIONS_SUCCESS:
@@ -103,7 +110,7 @@ export default function ( state = initialQuizState, action ) {
         action.payload,
         disableFetching,
         resetFetchableFailure,
-        setQuizData
+        setQuizQuestions
       );
 
     case FETCH_QUIZ_QUESTIONS_FAILURE:

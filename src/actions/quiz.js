@@ -1,6 +1,6 @@
 // ---------------------------- fetch question actions ----------------------------
 export const FETCH_QUIZ_QUESTIONS_REQUEST = 'FETCH_QUIZ_QUESTIONS_REQUEST';
-export function fetchQuizQuestions(quizId ) {
+export function fetchQuizQuestions( quizId, quizData ) {
   return {
     type: FETCH_QUIZ_QUESTIONS_REQUEST,
 
@@ -15,6 +15,10 @@ export function fetchQuizQuestions(quizId ) {
           failure: fetchQuizFailure,
         },
       },
+    },
+
+    payload: {
+      quizData,
     },
   };
 }

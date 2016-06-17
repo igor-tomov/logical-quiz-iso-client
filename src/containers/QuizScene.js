@@ -23,7 +23,9 @@ class QuizSceneContainer extends Component {
 
 
   componentWillMount () {
-    this.props.actions.fetchQuizQuestions( '5728926cc4b03ef75a29397d' ); // todo: hardcoded, must be improved
+    const {navigationPayload, actions} = this.props;
+
+    actions.fetchQuizQuestions( navigationPayload.id, navigationPayload );
   }
 
 
