@@ -6,7 +6,7 @@ import {NAVIGATE_PUSH, NAVIGATE_POP} from '../actions/navigation';
 const initialState = fromJS({
   index: 0,
   key: 'root',
-  children: [
+  routes: [
     {
       key: 'subjects',
       payload: {
@@ -19,12 +19,12 @@ const initialState = fromJS({
 
 
 export function navigatePop( state ) {
-  const children = state.get( 'children' );
+  const routes = state.get( 'routes' );
 
-  if ( children.size > 1 ) {
+  if ( routes.size > 1 ) {
     state = state.merge({
       index: state.get( 'index' ) - 1,
-      children: children.pop(),
+      routes: routes.pop(),
     });
   }
 
@@ -33,12 +33,12 @@ export function navigatePop( state ) {
 
 
 export function navigatePush ( state, { route } ) {
-  const children = state.get( 'children' );
+  const routes = state.get( 'routes' );
 
-  if ( route.key !== children.last().get( 'key' ) ) {
+  if ( route.key !== routes.last().get( 'key' ) ) {
     state = state.merge({
       index:    state.get( 'index' ) + 1,
-      children: children.push( fromJS( route ) ),
+      routes:   routes.push( fromJS( route ) ),
     });
   }
 

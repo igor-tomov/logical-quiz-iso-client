@@ -12,7 +12,7 @@ describe( "Reducers", function () {
       it( 'Back to previous scene', function () {
         const state = fromJS({
           index: 2,
-          children: [
+          routes: [
             { key: 'welcome' },
             { key: 'subjects' },
             { key: 'quiz' },
@@ -23,7 +23,7 @@ describe( "Reducers", function () {
 
         expect( nextState ).to.equal(fromJS({
           index: 1,
-          children: [
+          routes: [
             { key: 'welcome' },
             { key: 'subjects' },
           ]
@@ -33,7 +33,7 @@ describe( "Reducers", function () {
       it( 'Ignore pop navigation in case of one item in scenes stack', function () {
         const state = fromJS({
           index: 0,
-          children: [
+          routes: [
             { key: 'welcome' },
           ]
         });
@@ -42,7 +42,7 @@ describe( "Reducers", function () {
 
         expect( nextState ).to.equal(fromJS({
           index: 0,
-          children: [
+          routes: [
             { key: 'welcome' },
           ]
         }));
@@ -54,7 +54,7 @@ describe( "Reducers", function () {
       it( "Push new route to navigation state", function () {
         const state = fromJS({
           index: 0,
-          children: [
+          routes: [
             { key: 'subjects' },
           ]
         });
@@ -65,7 +65,7 @@ describe( "Reducers", function () {
 
         expect( nextState ).to.equal(fromJS({
           index: 1,
-          children: [
+          routes: [
             { key: 'subjects' },
             { key: 'quiz' }
           ]
@@ -75,7 +75,7 @@ describe( "Reducers", function () {
       it( "Push new route with the same key as in last item of current route stack and it should be ignored", function () {
         const state = fromJS({
           index: 2,
-          children: [
+          routes: [
             { key: 'subjects' },
           ]
         });
@@ -86,7 +86,7 @@ describe( "Reducers", function () {
 
         expect( nextState ).to.equal(fromJS({
           index: 2,
-          children: [
+          routes: [
             { key: 'subjects' },
           ]
         }));

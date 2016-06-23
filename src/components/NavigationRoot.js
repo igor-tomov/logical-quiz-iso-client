@@ -53,7 +53,7 @@ class NavigationRoot extends Component {
 
 
   renderScene ( { scene } ) {
-    const {key, payload} = scene.navigationState;
+    const {key, payload} = scene.route;
     const CurrentScene   = NavigationRoot.sceneMap[key];
 
     return (
